@@ -60,16 +60,16 @@ class WorkerThread(threading.Thread):
                 print(f"Worker {self.index} is exiting")
                 return
             print(f"Worker {self.index} is now working on task: {task.kwargs}")
-            task.state = "active"
+            task.state = "Выполняется"
             self.ts_started = time.time()
             task.worker_index = self.index
             local_obj.current_task = task
             try:
                 task.result = task.exec()
-                task.state = "mission accomplished"
+                task.state = "Выполнено"
             except Exception as ex:
                 print(f"Got an Exception in function {task.fn_name} with parameters '{task.kwargs}\n{ex}'")
-                task.state = "failed"
+                task.state = "Неудача"
                 task.exception = ex
             self.ts_finished = time.time()
             print(f"worker {self.index} is done with task: {task.kwargs} (state={task.state})")

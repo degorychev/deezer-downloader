@@ -4,19 +4,19 @@ function deezer_download(music_id, type, add_to_playlist, create_zip) {
         JSON.stringify({ type: type, music_id: parseInt(music_id), add_to_playlist: add_to_playlist, create_zip: create_zip}),
         function(data) {
             if(create_zip == true) {
-                text = "You like being offline? You will get a zip file!";
+                text = "Вам нравится быть офлайн? Вы получите zip-архив!";
             }
             else if(type == "album") {
                 if(add_to_playlist == true) {
-                    text = "Good choice! The album will be downloaded and queued to the playlist";
+                    text = "Хороший выбор! Альбом будет скачан и добавлен в плейлист.";
                 } else {
-                    text = "Good choice! The album will be downloaded.";
+                    text = "Хороший выбор! Альбом будет загружен.";
                 }
             } else {
                 if(add_to_playlist == true) {
-                    text = "Good choice! The song will be downloaded and queued to the playlist";
+                    text = "Хороший выбор! Песня будет загружена и добавлена в плейлист.";
                 } else {
-                    text = "Good choice! The song will be downloaded.";
+                    text = "Хороший выбор! Песня будет скачана.";
                 }
             }
             $.jGrowl(text, { life: 4000 });
@@ -43,7 +43,7 @@ $(document).ready(function() {
             JSON.stringify({ url: $('#youtubedl-query').val(), add_to_playlist: add_to_playlist }),
             function(data) {
                 console.log(data);
-                $.jGrowl("As you wish", { life: 4000 });
+                $.jGrowl("Будет сделано", { life: 4000 });
             });
     }
     
@@ -56,7 +56,7 @@ $(document).ready(function() {
                              create_zip: create_zip}),
             function(data) {
                 console.log(data);
-                $.jGrowl("As you wish", { life: 4000 });
+                $.jGrowl("Будет сделано", { life: 4000 });
             });
     }
 
@@ -69,7 +69,7 @@ $(document).ready(function() {
                              create_zip: create_zip}),
             function(data) {
                 console.log(data);
-                $.jGrowl("As you wish", { life: 4000 });
+                $.jGrowl("Будет сделано", { life: 4000 });
             });
     }
     
@@ -98,27 +98,27 @@ $(document).ready(function() {
         row.append("<td><img src='"+rowData.img_url+"'> " + rowData.album + "</a></td>");
         
         if (rowData.preview_url) {
-            row.append($('<td> <button class="btn btn-default" onclick="play_preview(\'' + rowData.preview_url + '\');" > <i class="fa fa-headphones fa-lg" title="listen preview in browser" ></i> </button> </td>'));
+            row.append($('<td> <button class="btn btn-default" onclick="play_preview(\'' + rowData.preview_url + '\');" > <i class="fa fa-headphones fa-lg" title="Послушать превью в браузере" ></i> </button> </td>'));
         }
         
         if (mtype == "album") {
-            row.append($('<td> <button class="btn btn-default"> <i class="fa fa-list fa-lg" title="list album songs" ></i> </button> </td>').click(function() {deezer_load_list("album_track", ""+rowData.album_id + "")}));
+            row.append($('<td> <button class="btn btn-default"> <i class="fa fa-list fa-lg" title="Список композиций в альбоме" ></i> </button> </td>').click(function() {deezer_load_list("album_track", ""+rowData.album_id + "")}));
         }
         
         if(show_mpd_features) {
         row.append($('<td> <button class="btn btn-default" onclick="deezer_download(\'' +
                      rowData.id  + '\', \''+ rowData.id_type +
-                     '\', true, false);" > <i class="fa fa-play-circle fa-lg" title="download and queue to mpd" ></i> </button> </td>'));
+                     '\', true, false);" > <i class="fa fa-play-circle fa-lg" title="скачать и поставить в очередь плеера" ></i> </button> </td>'));
         }
 
         row.append($('<td> <button class="btn btn-default" onclick="deezer_download(\'' +
                    rowData.id  + '\', \''+ rowData.id_type + 
-                   '\', false, false);" > <i class="fa fa-download fa-lg" title="download" ></i> </button> </td>'));
+                   '\', false, false);" > <i class="fa fa-download fa-lg" title="Скачать" ></i> </button> </td>'));
 
         if(rowData.id_type == "album") {
             row.append($('<td> <button class="btn btn-default" onclick="deezer_download(\'' +
                        rowData.id  + '\', \''+ rowData.id_type + 
-                       '\', false, true);" > <i class="fa fa-file-archive-o fa-lg" title="download as zip file" ></i> </button> </td>'));
+                       '\', false, true);" > <i class="fa fa-file-archive-o fa-lg" title="Скачать архивом" ></i> </button> </td>'));
         }
     }
 
