@@ -5,7 +5,7 @@ RUN apt-get update  -yq && \
     apt-get install -yq vim tmux git gcc ffmpeg \ 
                         python3-virtualenv python3-dev \
                         mpd ncmpcpp
-RUN git clone https://github.com/kmille/deezer-downloader.git /opt/deezer
+RUN git clone https://github.com/degorychev/deezer-downloader.git /opt/deezer
 RUN python3 -m virtualenv -p python3 /opt/deezer/app/venv
 RUN /bin/bash -c "source /opt/deezer/app/venv/bin/activate && \
     pip install -r /opt/deezer/requirements.txt && \

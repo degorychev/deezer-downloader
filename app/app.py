@@ -65,7 +65,7 @@ def validate_schema(*parameters_to_check):
 
 @app.route("/")
 def index():
-    return render_template("index.html",
+    return render_template("index_ru.html",
                            api_root=config["http"]["api_root"],
                            static_root=config["http"]["static_root"],
                            use_mpd=str(config['mpd'].getboolean('use_mpd')).lower(),

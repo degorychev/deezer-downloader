@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Хорошая музыка - хорошее настроение</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ static_root }}/css/bootstrap.min.css">
+    <script>
+    window.deezer_downloader_api_root = '{{ api_root }}';
+    window.deezer_is_working = '{{ deezer_is_working }}';
+    </script>
+    <script src="{{ static_root }}/js/jquery.min.js"></script>
+    <script src="{{ static_root }}/js/popper.min.js"></script>
+    <script src="{{ static_root }}/js/bootstrap.min.js"></script>
+    <script>
+      var show_mpd_features = {{ use_mpd }};
+    </script>
+    <script src="{{ static_root }}/js/custom.js"></script>
+    <script src="{{ static_root }}/js/jquery.jgrowl.min.js"></script>
+    <link rel="stylesheet" href="{{ static_root }}/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ static_root }}/css/jquery.jgrowl.min.css" />
+
+    <style>
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 80%;
+            left: 10%;
+            height: 40px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body id="body">
+
+    <div class="container">
+
+        <br>
+
+        <div class="row">
+
+            <ul id="navigation" class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="nav-songs-albums" data-toggle="tab" href="#songs_albums">Песни/Альбомы (1)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-youtubedl" data-toggle="tab" href="#youtubedl">Youtube-dl (2)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-spotify-playlists" data-toggle="tab" href="#spotify-playlists">Spotify Плейлист (3)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-deezer-playlists" data-toggle="tab" href="#deezer-playlists">Deezer Плейлист (4)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-file-downloads" href="downloads/" target="_blank">Файлы (5)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-debug-log" data-toggle="tab" href="#debug">Отладка (6)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-task-queue" data-toggle="tab" href="#queue">Очередь (7)</a>
+                </li>
+            </ul>
+        </div>   <!-- end row -->
+        <!-- Tab panes -->
+        <div class="tab-content">
+
+            <div id="songs_albums" class="container tab-pane active">
+                <br>
+                {% if deezer_is_working %}
+                <audio src="" controls style="float:right" id="audio_tag"></audio>
+                <h3>Загрузка песен и альбомов</h3>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="songs-albums-query" placeholder="Поиск ..." />
+                    &nbsp;
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info" id="search_track">Поиск песни</button>
+                        <button type="button" class="btn btn-info" id="search_album">Поиск альбома</button>
+                    </span>
+                </div>
+
+                <table id="results" class="table">
+                    <thead>
+                        <tr>
+                            <th>Исполнитель</th>
+                            <th>Название</th>
+                            <th>Альбом</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                {% else %}
+                <p>Загрузка не удалась, Возможно, нужно обносить session ID.</p>
+                {% endif %}
+            </div> <!-- end div tab songs/albums -->
+
+
+            <div id="youtubedl" class="container tab-pane fade">
+                <br>
+                <h3>Скачивание материалов через youtube-dl</h3>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="youtubedl-query" placeholder="Загрузка материалов из YouTube, Invidious, Vimeo, Soundcloud, ... " />
+                    &nbsp;
+                </div>
+                <br>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-info" id="yt_download_play">Скачать и воспроизвести</button>
+                    <button type="button" class="btn btn-info" id="yt_download">Скачать</button>
+                    <button type="button" class="btn btn-info" onclick="$('#youtubedl-query').val('')">Очистить</button>
+                </span>
+            </div> <!-- end div tab youtube-dl -->
+
+
+            <div id="spotify-playlists" class="container tab-pane fade">
+                <br>
+                <h3>Загрузка spotify плейлиста</h3>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="spotify-playlist-name" placeholder="Название плейлиста" />
+                    &nbsp;
+                    <input type="text" class="form-control" id="spotify-playlist-url" placeholder="url или id плейлиста" />
+                    &nbsp;
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info" id="spotify_download_play">Скачать и воспроизвести</button>
+                        <button type="button" class="btn btn-info" id="spotify_download">Скачать</button>
+                        <button type="button" class="btn btn-info" id="spotify_zip">Создать zip архив</button>
+                        <button type="button" class="btn btn-info" onclick="$('input[id^=\'spotify\']').val('')">Очистить</button>
+                    </span>
+                </div>
+            </div> <!-- end div tab spotify playlists -->
+
+
+
+            <div id="deezer-playlists" class="container tab-pane fade">
+                <br>
+                <h3>Загрузка Deezer плейлиста</h3>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="deezer-playlist-url" placeholder="url или id плейлиста" />
+                    &nbsp;
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info" id="deezer_download_play">Скачать и воспроизвести</button>
+                        <button type="button" class="btn btn-info" id="deezer_download">Скачать</button>
+                        <button type="button" class="btn btn-info" id="deezer_zip">Создать zip архив</button>
+                        <button type="button" class="btn btn-info" onclick="$('#deezer-playlist-url').val('')">Очистить</button>
+                    </span>
+                </div>
+            </div> <!-- end div tab deezer playlists -->
+
+
+            <div id="debug" class="container tab-pane fade">
+                <br>
+                <h3>Отладка</h3>
+                <div class="form-group">
+                    <textarea readonly class="form-control" id="ta-debug-log"></textarea>
+                </div> <!-- end div textares -->
+            </div> <!-- end div tab debug -->
+
+            <div id="queue" class="container tab-pane fade">
+                <br>
+                <h3>Очередь</h3>
+
+                <table id="task-list" class="table">
+                    <thead>
+                        <tr>
+                            <th>Описание</th>
+                            <th>Аргументы</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div> <!-- end div tab queue -->
+
+            <footer class="footer">
+                <div class="container">
+                    <i class="fa fa-angellist"></i> |
+                    <span class="text-muted">
+                        ctrl+m: фокус на поисковую строку |
+                        Enter: поиск песен |
+                        Alt+Enter: поиск альбомов |
+                        Ctrl+Shift+[1-7]: переключение вкладок
+                    </span>
+                </div>
+            </footer>
+
+
+            <style>
+                html, body, .container, .tab-content, .tab-pane .form-group {
+                    height: 95%;
+                }
+
+                textarea.form-control {
+                    height: 95%;
+                }
+
+                #werbung:link, #werbung:visited, #werbung:hover, #werbung:active {
+                    color: red
+                }
+            </style>
+
+
+        </div> <!-- end div container -->
+
+</body>
+</html>
