@@ -144,7 +144,7 @@ def deezer_download_song_or_album():
         create_zip: True|False (create a zip for the album)
     """
     user_input = request.get_json(force=True)
-    desc = "Downloading song {}".format(user_input['type'])
+    desc = "Загрузка песни {}".format(user_input['type'])
     if user_input['type'] == "track":
         task = sched.enqueue_task(desc, "download_deezer_song_and_queue",
                                   track_id=user_input['music_id'],
@@ -167,7 +167,7 @@ def youtubedl_download():
         add_to_playlist: True|False (add to mpd playlist)
     """
     user_input = request.get_json(force=True)
-    desc = "Downloading via youtube-dl"
+    desc = "Загрузка материалов из youtube"
     task = sched.enqueue_task(desc, "download_youtubedl_and_queue",
                               video_url=user_input['url'],
                               add_to_playlist=user_input['add_to_playlist'])
@@ -186,7 +186,7 @@ def deezer_playlist_download():
         create_zip: True|False (create a zip for the playlist)
     """
     user_input = request.get_json(force=True)
-    desc = "Downloading Deezer playlist"
+    desc = "Загрузка Deezer плейлиста"
     task = sched.enqueue_task(desc, "download_deezer_playlist_and_queue_and_zip",
                               playlist_id=user_input['playlist_url'],
                               add_to_playlist=user_input['add_to_playlist'],
@@ -208,7 +208,7 @@ def spotify_playlist_download():
         create_zip: True|False (create a zip for the playlist)
     """
     user_input = request.get_json(force=True)
-    desc = "Downloading Spotify playlist"
+    desc = "Загрузка Spotify плейлиста"
     task = sched.enqueue_task(desc, "download_spotify_playlist_and_queue_and_zip",
                               playlist_name=user_input['playlist_name'],
                               playlist_id=user_input['playlist_url'],
